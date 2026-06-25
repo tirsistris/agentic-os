@@ -7,7 +7,7 @@ export default function Hero() {
       <span className="inline-flex w-fit items-center gap-2 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium tracking-wide text-zinc-600 uppercase dark:bg-zinc-800 dark:text-zinc-300">
         Agentic OS · реплей прогона
       </span>
-      <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
+      <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 hyphens-auto break-words sm:text-5xl dark:text-zinc-50">
         От фидбэка в чатах — к приоритизированному роадмапу
       </h1>
       <p className="max-w-xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
