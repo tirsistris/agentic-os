@@ -8,10 +8,10 @@ import ArtifactSection from "./ArtifactSection";
 export default function RunPlayer({ stages }: { stages: RunStage[] }) {
   return (
     <section className="mx-auto max-w-3xl px-5 py-16 sm:py-20">
-      <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+      <h2 className="text-2xl font-semibold tracking-tight text-zinc-50">
         Прогон
       </h2>
-      <p className="mt-2 mb-10 max-w-xl text-zinc-600 dark:text-zinc-400">
+      <p className="mt-2 mb-10 max-w-xl text-zinc-400">
         Три этапа подряд. Каждый артефакт передаётся следующему агенту как вход —
         ниже хайлайты, а полный текст раскрывается по клику.
       </p>
