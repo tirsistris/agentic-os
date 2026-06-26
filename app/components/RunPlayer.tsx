@@ -1,5 +1,6 @@
 import type { RunStage } from "@/lib/run";
 import ArtifactSection from "./ArtifactSection";
+import RevealGroup from "./RevealGroup";
 
 /**
  * Beat 3 — RunPlayer. Wraps the three stages (brief → research → ia) under a
@@ -16,11 +17,11 @@ export default function RunPlayer({ stages }: { stages: RunStage[] }) {
         ниже хайлайты, а полный текст раскрывается по клику.
       </p>
 
-      <div className="flex flex-col gap-12">
+      <RevealGroup className="flex flex-col gap-12">
         {stages.map((stage) => (
           <ArtifactSection key={stage.id} stage={stage} />
         ))}
-      </div>
+      </RevealGroup>
     </section>
   );
 }
