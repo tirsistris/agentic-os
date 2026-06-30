@@ -1,4 +1,6 @@
-import { Fragment } from "react";
+"use client";
+
+import { Fragment, useState } from "react";
 
 /**
  * Beat 2 — SystemMap. A vertical backbone (spine), not a grid: the orchestrator
@@ -24,6 +26,8 @@ const PARALLEL = [
 const CONTRACT = ["brief", "research", "ia", "screens"];
 
 export default function SystemMap() {
+  const [mode, setMode] = useState<"showcase" | "xray">("showcase");
+
   return (
     <section className="bg-[#0a0a0a]">
       <div className="mx-auto max-w-3xl px-5 py-20 sm:py-24">
@@ -35,6 +39,33 @@ export default function SystemMap() {
           Оркестратор координирует шесть специализированных агентов. Каждый
           передаёт следующему типизированный артефакт.
         </p>
+
+        {/* Mode toggle — Showcase | X-Ray */}
+        <div
+          role="tablist"
+          aria-label="Режим карты"
+          className="mt-8 inline-flex rounded-lg border border-zinc-800 bg-zinc-900/40 p-1"
+        >
+          {(["showcase", "xray"] as const).map((m) => {
+            const active = mode === m;
+            return (
+              <button
+                key={m}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                onClick={() => setMode(m)}
+                className={`rounded-md px-3 py-1.5 font-mono text-xs transition-colors ${
+                  active
+                    ? "bg-[#4f6bff]/[0.12] text-[#7e8cff]"
+                    : "text-zinc-500 hover:text-zinc-300"
+                }`}
+              >
+                {m === "showcase" ? "Showcase" : "X-Ray"}
+              </button>
+            );
+          })}
+        </div>
 
         {/* Backbone / spine */}
         <div className="relative mt-12">
