@@ -202,7 +202,10 @@ export default function SystemMap({ stages }: { stages: RunStage[] }) {
                       </div>
 
                       <div>
-                        <p className="text-[10px] font-medium tracking-[0.15em] text-zinc-600 uppercase">
+                        <p className="flex items-center gap-1.5 text-[10px] font-medium tracking-[0.15em] text-zinc-400 uppercase">
+                          <span aria-hidden className="text-[8px] text-zinc-400">
+                            ◆
+                          </span>
                           Decision
                         </p>
                         <ul className="mt-1 space-y-1">
