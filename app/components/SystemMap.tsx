@@ -36,7 +36,7 @@ export default function SystemMap({ stages }: { stages: RunStage[] }) {
   }
 
   return (
-    <section className="bg-[#0a0a0a]">
+    <section id="system" className="bg-[#0a0a0a]">
       <div className="mx-auto max-w-3xl px-5 py-20 sm:py-24">
         <span aria-hidden className="block h-px w-10 bg-[#3b82f6]" />
         <h2 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">

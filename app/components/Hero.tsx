@@ -21,6 +21,13 @@ export default function Hero() {
         <span>6 агентов + оркестратор</span>
         <span aria-hidden>·</span>
         <span>контракт brief → research → ia → screens</span>
+        <span aria-hidden>·</span>
+        <a
+          href="#system"
+          className="text-zinc-300 underline decoration-zinc-600 underline-offset-4 hover:text-zinc-100 hover:decoration-zinc-400 transition-colors"
+        >
+          X-Ray в разделе «Система»
+        </a>
       </div>
     </section>
   );
