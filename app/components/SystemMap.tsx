@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import type { RunStage } from "@/lib/run";
 
 /**
  * Beat 2 — SystemMap. A vertical backbone (spine), not a grid: the orchestrator
@@ -25,8 +26,14 @@ const PARALLEL = [
 
 const CONTRACT = ["brief", "research", "ia", "screens"];
 
-export default function SystemMap() {
+export default function SystemMap({ stages }: { stages: RunStage[] }) {
   const [mode, setMode] = useState<"showcase" | "xray">("showcase");
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  function selectMode(m: "showcase" | "xray") {
+    setMode(m);
+    if (m === "showcase") setOpenId(null); // контракт не остаётся открытым в showcase
+  }
 
   return (
     <section className="bg-[#0a0a0a]">
@@ -54,7 +61,7 @@ export default function SystemMap() {
                 type="button"
                 role="tab"
                 aria-selected={active}
-                onClick={() => setMode(m)}
+                onClick={() => selectMode(m)}
                 className={`rounded-md px-3 py-1.5 font-mono text-xs transition-colors ${
                   active
                     ? "bg-[#4f6bff]/[0.12] text-[#7e8cff]"
@@ -91,14 +98,13 @@ export default function SystemMap() {
             </li>
 
             {/* Agent rows — main chain only */}
-            {MAIN_CHAIN.map((a) => (
-              <li key={a.id} className="relative pl-9">
-                <span
-                  aria-hidden
-                  className={`absolute top-[26px] left-[2px] size-2.5 -translate-y-1/2 rounded-full border bg-[#0a0a0a] ${
-                    a.executed ? "border-zinc-600" : "border-zinc-800"
-                  }`}
-                />
+            {MAIN_CHAIN.map((a) => {
+              const clickable = a.executed && mode === "xray";
+              const open = clickable && openId === a.id;
+              const c = open ? stages.find((s) => s.id === a.id) : undefined;
+
+              // existing row card — markup unchanged, just extracted
+              const card = (
                 <div
                   className={`flex items-center justify-between gap-3 rounded-lg border bg-zinc-900/40 px-4 py-3 ${
                     a.executed ? "border-zinc-800" : "border-zinc-800/60"
@@ -121,13 +127,127 @@ export default function SystemMap() {
                     <span aria-hidden>→</span> {a.produces}
                   </span>
                 </div>
-                {!a.executed && (
-                  <p className="mt-1 pl-1 text-[10px] text-zinc-600">
-                    не выполнен в этом прогоне
-                  </p>
-                )}
-              </li>
-            ))}
+              );
+
+              return (
+                <li key={a.id} className="relative pl-9">
+                  <span
+                    aria-hidden
+                    className={`absolute top-[26px] left-[2px] size-2.5 -translate-y-1/2 rounded-full border bg-[#0a0a0a] ${
+                      a.executed ? "border-zinc-600" : "border-zinc-800"
+                    }`}
+                  />
+
+                  {clickable ? (
+                    <button
+                      type="button"
+                      aria-expanded={openId === a.id}
+                      aria-controls={`contract-${a.id}`}
+                      onClick={() => setOpenId(openId === a.id ? null : a.id)}
+                      className="block w-full text-left"
+                    >
+                      {card}
+                    </button>
+                  ) : (
+                    card
+                  )}
+
+                  {!a.executed && (
+                    <p className="mt-1 pl-1 text-[10px] text-zinc-600">
+                      не выполнен в этом прогоне
+                    </p>
+                  )}
+
+                  {open && c && (
+                    <div
+                      id={`contract-${a.id}`}
+                      className="mt-2 space-y-4 rounded-lg border border-zinc-800 bg-zinc-900/40 p-4"
+                    >
+                      <div>
+                        <p className="text-[10px] font-medium tracking-[0.15em] text-zinc-600 uppercase">
+                          Input
+                        </p>
+                        <p className="mt-1 text-sm leading-6 text-zinc-300">
+                          {c.input}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-[10px] font-medium tracking-[0.15em] text-zinc-600 uppercase">
+                          Objective
+                        </p>
+                        <p className="mt-1 text-sm leading-6 text-zinc-300">
+                          {c.objective}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-[10px] font-medium tracking-[0.15em] text-zinc-600 uppercase">
+                          Constraints
+                        </p>
+                        <ul className="mt-1 space-y-1">
+                          {c.constraints.map((x, i) => (
+                            <li
+                              key={i}
+                              className="flex gap-2 text-sm leading-6 text-zinc-300"
+                            >
+                              <span
+                                aria-hidden
+                                className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-zinc-600"
+                              />
+                              {x}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <p className="text-[10px] font-medium tracking-[0.15em] text-zinc-600 uppercase">
+                          Decision
+                        </p>
+                        <ul className="mt-1 space-y-1">
+                          {c.decisions.map((x, i) => (
+                            <li
+                              key={i}
+                              className="flex gap-2 text-sm leading-6 text-zinc-300"
+                            >
+                              <span
+                                aria-hidden
+                                className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-zinc-600"
+                              />
+                              {x}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {c.change !== null && (
+                        <div>
+                          <p className="text-[10px] font-medium tracking-[0.15em] text-[#7e8cff] uppercase">
+                            Change
+                          </p>
+                          <p className="mt-1 text-sm leading-6 text-zinc-300">
+                            {c.change}
+                          </p>
+                        </div>
+                      )}
+
+                      <div>
+                        <p className="text-[10px] font-medium tracking-[0.15em] text-zinc-600 uppercase">
+                          Output
+                        </p>
+                        <a
+                          href={`#${a.id}`}
+                          className="mt-1 inline-block font-mono text-xs text-zinc-400 underline underline-offset-4 hover:text-zinc-200"
+                        >
+                          ↓ артефакт в Прогоне
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ol>
         </div>
 

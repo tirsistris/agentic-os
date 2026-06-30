@@ -20,7 +20,7 @@ export default async function Home() {
       {/* Beat 1 */}
       <Hero />
       {/* Beat 2 */}
-      <SystemMap />
+      <SystemMap stages={run.stages} />
       {/* Beat 3 */}
       <RunPlayer stages={run.stages} />
       {/* Beat 4 */}
