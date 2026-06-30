@@ -9,13 +9,16 @@ import { Fragment } from "react";
  * single absolutely-positioned rule with opaque node dots punched over it.
  */
 
-const AGENTS = [
-  { name: "brief-expander", produces: "brief" },
-  { name: "researcher", produces: "research" },
-  { name: "ia-architect", produces: "ia" },
-  { name: "design-generator", produces: "screens" },
-  { name: "prototype-builder", produces: "prototype" },
-  { name: "test-companion", produces: "tests" },
+const MAIN_CHAIN = [
+  { id: "brief",     name: "brief-expander",    produces: "brief",     executed: true  },
+  { id: "research",  name: "researcher",        produces: "research",  executed: true  },
+  { id: "ia",        name: "ia-architect",      produces: "ia",        executed: true  },
+  { id: "design",    name: "design-generator",  produces: "screens",   executed: false },
+  { id: "prototype", name: "prototype-builder", produces: "prototype", executed: false },
+];
+
+const PARALLEL = [
+  { id: "test", name: "test-companion", produces: "тест-стенд", executed: false },
 ];
 
 const CONTRACT = ["brief", "research", "ia", "screens"];
@@ -56,24 +59,63 @@ export default function SystemMap() {
               </div>
             </li>
 
-            {/* Agent rows */}
-            {AGENTS.map((a) => (
-              <li key={a.name} className="relative pl-9">
+            {/* Agent rows — main chain only */}
+            {MAIN_CHAIN.map((a) => (
+              <li key={a.id} className="relative pl-9">
                 <span
                   aria-hidden
-                  className="absolute top-1/2 left-[2px] size-2.5 -translate-y-1/2 rounded-full border border-zinc-600 bg-[#0a0a0a]"
+                  className={`absolute top-[26px] left-[2px] size-2.5 -translate-y-1/2 rounded-full border bg-[#0a0a0a] ${
+                    a.executed ? "border-zinc-600" : "border-zinc-800"
+                  }`}
                 />
-                <div className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-3">
-                  <span className="font-mono text-sm text-zinc-100">
+                <div
+                  className={`flex items-center justify-between gap-3 rounded-lg border bg-zinc-900/40 px-4 py-3 ${
+                    a.executed ? "border-zinc-800" : "border-zinc-800/60"
+                  }`}
+                >
+                  <span
+                    className={`font-mono text-sm ${
+                      a.executed ? "text-zinc-100" : "text-zinc-600"
+                    }`}
+                  >
                     {a.name}
                   </span>
-                  <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-zinc-700 bg-zinc-800/60 px-2 py-1 font-mono text-xs text-zinc-300">
+                  <span
+                    className={`inline-flex shrink-0 items-center gap-1 rounded-md border px-2 py-1 font-mono text-xs ${
+                      a.executed
+                        ? "border-zinc-700 bg-zinc-800/60 text-zinc-300"
+                        : "border-zinc-800 bg-zinc-900/40 text-zinc-600"
+                    }`}
+                  >
                     <span aria-hidden>→</span> {a.produces}
                   </span>
                 </div>
+                {!a.executed && (
+                  <p className="mt-1 pl-1 text-[10px] text-zinc-600">
+                    не выполнен в этом прогоне
+                  </p>
+                )}
               </li>
             ))}
           </ol>
+        </div>
+
+        {/* Parallel branch — test-companion, off the spine */}
+        <div className="mt-6 ml-9 border-t border-zinc-800/60 pt-6">
+          <p className="text-[10px] font-medium tracking-[0.15em] text-zinc-600 uppercase">
+            параллельно · старт после brief
+          </p>
+          {PARALLEL.map((a) => (
+            <div
+              key={a.id}
+              className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-zinc-800/60 bg-zinc-900/40 px-4 py-3"
+            >
+              <span className="font-mono text-sm text-zinc-600">{a.name}</span>
+              <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-zinc-800 bg-zinc-900/40 px-2 py-1 font-mono text-xs text-zinc-600">
+                <span aria-hidden>→</span> {a.produces}
+              </span>
+            </div>
+          ))}
         </div>
 
         {/* Data contract */}
@@ -82,18 +124,27 @@ export default function SystemMap() {
             Контракт данных
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
-            {CONTRACT.map((node, i) => (
-              <Fragment key={node}>
-                <span className="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 font-mono text-xs text-zinc-200">
-                  {node}
-                </span>
-                {i < CONTRACT.length - 1 && (
-                  <span aria-hidden className="font-mono text-zinc-600">
-                    →
+            {CONTRACT.map((node, i) => {
+              const dim = node === "screens";
+              return (
+                <Fragment key={node}>
+                  <span
+                    className={`rounded-md border px-3 py-1.5 font-mono text-xs ${
+                      dim
+                        ? "border-zinc-800 text-zinc-600"
+                        : "border-zinc-700 bg-zinc-900 text-zinc-200"
+                    }`}
+                  >
+                    {node}
                   </span>
-                )}
-              </Fragment>
-            ))}
+                  {i < CONTRACT.length - 1 && (
+                    <span aria-hidden className="font-mono text-zinc-600">
+                      →
+                    </span>
+                  )}
+                </Fragment>
+              );
+            })}
           </div>
         </div>
       </div>
