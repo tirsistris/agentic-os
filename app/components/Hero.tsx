@@ -16,7 +16,7 @@ export default function Hero() {
         где прогон честно скорректировал сам себя.
       </p>
       <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-400">
-        <span>3 артефакта</span>
+        <span>4 артефакта</span>
         <span aria-hidden>·</span>
         <span>6 агентов + оркестратор</span>
         <span aria-hidden>·</span>

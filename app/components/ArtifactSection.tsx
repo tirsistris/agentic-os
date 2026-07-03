@@ -1,5 +1,6 @@
 import type { RunStage } from "@/lib/run";
 import Markdown from "./Markdown";
+import ScreensLightbox from "./ScreensLightbox";
 
 /**
  * One stage of the run: hand-curated highlights always visible, full markdown
@@ -27,6 +28,10 @@ export default function ArtifactSection({ stage }: { stage: RunStage }) {
         </p>
       </header>
 
+      {stage.disclaimer && (
+        <p className="mb-4 text-sm text-[var(--muted)]">{stage.disclaimer}</p>
+      )}
+
       <ul className="space-y-2">
         {stage.highlights.map((h, i) => (
           <li
@@ -41,6 +46,10 @@ export default function ArtifactSection({ stage }: { stage: RunStage }) {
           </li>
         ))}
       </ul>
+
+      {stage.images && stage.images.length > 0 && (
+        <ScreensLightbox images={stage.images} />
+      )}
 
       <details className="group mt-5 rounded-lg border border-zinc-800">
         <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-zinc-400 select-none hover:text-zinc-100">

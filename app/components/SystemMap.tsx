@@ -16,7 +16,7 @@ const MAIN_CHAIN = [
   { id: "brief",     name: "brief-expander",    produces: "brief",     executed: true  },
   { id: "research",  name: "researcher",        produces: "research",  executed: true  },
   { id: "ia",        name: "ia-architect",      produces: "ia",        executed: true  },
-  { id: "design",    name: "design-generator",  produces: "screens",   executed: false },
+  { id: "screens",   name: "design-generator",  produces: "screens",   executed: true  },
   { id: "prototype", name: "prototype-builder", produces: "prototype", executed: false },
 ];
 
@@ -37,7 +37,7 @@ export default function SystemMap({ stages }: { stages: RunStage[] }) {
 
   return (
     <section id="system" className="bg-[#0a0a0a]">
-      <div className="mx-auto max-w-3xl px-5 py-20 sm:py-24">
+      <div className="mx-auto max-w-3xl px-5 pt-12 pb-20 sm:pt-16 sm:pb-24">
         <span aria-hidden className="block h-px w-10 bg-[#3b82f6]" />
         <h2 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
           Система
@@ -279,16 +279,9 @@ export default function SystemMap({ stages }: { stages: RunStage[] }) {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {CONTRACT.map((node, i) => {
-              const dim = node === "screens";
               return (
                 <Fragment key={node}>
-                  <span
-                    className={`rounded-md border px-3 py-1.5 font-mono text-xs ${
-                      dim
-                        ? "border-zinc-800 text-zinc-600"
-                        : "border-zinc-700 bg-zinc-900 text-zinc-200"
-                    }`}
-                  >
+                  <span className="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 font-mono text-xs text-zinc-200">
                     {node}
                   </span>
                   {i < CONTRACT.length - 1 && (

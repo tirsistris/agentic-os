@@ -12,7 +12,7 @@ import path from "node:path";
 
 export type RunStage = {
   /** stable id, also used as anchor */
-  id: "brief" | "research" | "ia";
+  id: "brief" | "research" | "ia" | "screens";
   /** which agent produced this artifact */
   agent: string;
   /** ordinal label shown in the player timeline */
@@ -29,6 +29,10 @@ export type RunStage = {
   change: string | null;
   /** full markdown of the artifact, rendered inside <details> */
   raw: string;
+  /** small-print note shown at the top of the section, if this stage needs one */
+  disclaimer?: string;
+  /** screenshots grid, if this stage produced visual artifacts */
+  images?: { src: string; alt: string }[];
 };
 
 export type HonestMoment = {
@@ -57,6 +61,58 @@ async function readArtifact(file: string): Promise<string> {
  * climax isn't diluted inside the research highlights.
  */
 const CURATED: Record<RunStage["id"], Omit<RunStage, "raw">> = {
+  screens: {
+    id: "screens",
+    agent: "design-generator",
+    step: "04",
+    title: "Screens",
+    subtitle: "Ключевые экраны",
+    highlights: [
+      "Inbox закрывает JTBD-1 «стянуть фидбэк, не теряя»: главное действие строки — «Принять», по шагам 2–4 главного флоу из IA.",
+      "Сквозной сценарий: сообщение @nastya_dev из Inbox прослеживается в группу «Экспорт данных ×2» и в карточку In Progress на роадмапе.",
+      "Backlog — split-view: два под-узла sitemap собраны в один экран; расхождение с ia.md зафиксировано заметкой, вход не правился.",
+      "Канбан ровно из 3 колонок — допущение D1 унаследовано без «улучшений», OQ-1 не закрыт втихую.",
+      "Документный проход: Figma-поля контракта помечены «не применимо», реконструированный контент отделён от фактов ресёрча.",
+    ],
+    input: "ia.md (контекст: brief.md, research.md)",
+    objective:
+      "специфицировать ключевые экраны главного флоу + 1 edge case, закрывающие JTBD-1…6",
+    constraints: [
+      "ровно 4 экрана",
+      "допущения D1/D2 наследуются как есть",
+      "входы read-only",
+      "платформа однозначно из брифа (desktop web 1440×900)",
+      "документный проход без Figma",
+    ],
+    decisions: [
+      "split-view для Backlog",
+      "«Принять» как main CTA строки Inbox",
+      "состояние «в роадмапе»",
+      "layout-паттерны F / inverted pyramid по типу контента",
+    ],
+    change:
+      "Backlog: два под-узла sitemap объединены в один split-view экран; расхождение зафиксировано, ia.md не правился",
+    disclaimer:
+      "Этапы 01–03 — исходный прогон. Этап 04 выполнен продолжением на тех же входных артефактах, без их правки.",
+    images: [
+      {
+        src: "/run/screens/01-inbox.png",
+        alt: "Inbox: список входящего фидбэка с действиями Принять/Отклонить",
+      },
+      {
+        src: "/run/screens/01-inbox-empty.png",
+        alt: "Inbox, empty state: CTA Подключить Telegram",
+      },
+      {
+        src: "/run/screens/02-backlog.png",
+        alt: "Backlog: группы фидбэка и матрица Value×Effort",
+      },
+      {
+        src: "/run/screens/03-roadmap.png",
+        alt: "Roadmap: канбан из трёх колонок",
+      },
+    ],
+  },
   brief: {
     id: "brief",
     agent: "brief-expander",
@@ -149,17 +205,23 @@ let cached: Run | null = null;
 export async function getRun(): Promise<Run> {
   if (cached) return cached;
 
-  const [brief, research, ia] = await Promise.all([
+  const [brief, research, ia, screens] = await Promise.all([
     readArtifact("brief.md"),
     readArtifact("research.md"),
     readArtifact("ia.md"),
+    readArtifact("screens.md"),
   ]);
 
-  const rawById: Record<RunStage["id"], string> = { brief, research, ia };
+  const rawById: Record<RunStage["id"], string> = {
+    brief,
+    research,
+    ia,
+    screens,
+  };
 
-  const stages: RunStage[] = (["brief", "research", "ia"] as const).map(
-    (id) => ({ ...CURATED[id], raw: rawById[id] }),
-  );
+  const stages: RunStage[] = (
+    ["brief", "research", "ia", "screens"] as const
+  ).map((id) => ({ ...CURATED[id], raw: rawById[id] }));
 
   cached = {
     stages,

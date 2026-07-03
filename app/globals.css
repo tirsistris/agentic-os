@@ -6,6 +6,9 @@
   color-scheme: dark;
   --background: #0a0a0a;
   --foreground: #ededed;
+  /* Same token as the page's existing meta-text color (text-zinc-400),
+     exposed as a variable so components can reference it directly. */
+  --muted: var(--color-zinc-400);
 }
 
 @theme inline {
