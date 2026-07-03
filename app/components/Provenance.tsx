@@ -48,6 +48,18 @@ export default function Provenance({
           ))}
         </ul>
       </div>
+
+      <p className="mt-8 text-sm text-zinc-400">
+        Пайплайн открыт →{" "}
+        <a
+          href="https://github.com/tirsistris/agentic-design-pipeline"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-blue-400 underline underline-offset-4 hover:text-blue-300"
+        >
+          Пайплайн на GitHub
+        </a>
+      </p>
     </section>
   );
 }
