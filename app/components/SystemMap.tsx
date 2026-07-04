@@ -17,14 +17,14 @@ const MAIN_CHAIN = [
   { id: "research",  name: "researcher",        produces: "research",  executed: true  },
   { id: "ia",        name: "ia-architect",      produces: "ia",        executed: true  },
   { id: "screens",   name: "design-generator",  produces: "screens",   executed: true  },
-  { id: "prototype", name: "prototype-builder", produces: "prototype", executed: false },
+  { id: "prototype", name: "prototype-builder", produces: "prototype", executed: true  },
 ];
 
 const PARALLEL = [
   { id: "test", name: "test-companion", produces: "тест-стенд", executed: false },
 ];
 
-const CONTRACT = ["brief", "research", "ia", "screens"];
+const CONTRACT = ["brief", "research", "ia", "screens", "prototype"];
 
 export default function SystemMap({ stages }: { stages: RunStage[] }) {
   const [mode, setMode] = useState<"showcase" | "xray">("showcase");

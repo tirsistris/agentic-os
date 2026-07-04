@@ -16,11 +16,11 @@ export default function Hero() {
         где прогон честно скорректировал сам себя.
       </p>
       <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-400">
-        <span>4 артефакта</span>
+        <span>5 артефактов</span>
         <span aria-hidden>·</span>
         <span>6 агентов + оркестратор</span>
         <span aria-hidden>·</span>
-        <span>контракт brief → research → ia → screens</span>
+        <span>контракт brief → research → ia → screens → prototype</span>
         <span aria-hidden>·</span>
         <a
           href="#system"

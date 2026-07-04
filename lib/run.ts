@@ -12,7 +12,7 @@ import path from "node:path";
 
 export type RunStage = {
   /** stable id, also used as anchor */
-  id: "brief" | "research" | "ia" | "screens";
+  id: "brief" | "research" | "ia" | "screens" | "prototype";
   /** which agent produced this artifact */
   agent: string;
   /** ordinal label shown in the player timeline */
@@ -33,6 +33,8 @@ export type RunStage = {
   disclaimer?: string;
   /** screenshots grid, if this stage produced visual artifacts */
   images?: { src: string; alt: string }[];
+  /** external CTA, if this stage links out to a live artifact */
+  externalCta?: { href: string; label: string };
 };
 
 export type HonestMoment = {
@@ -112,6 +114,40 @@ const CURATED: Record<RunStage["id"], Omit<RunStage, "raw">> = {
         alt: "Roadmap: канбан из трёх колонок",
       },
     ],
+  },
+  prototype: {
+    id: "prototype",
+    agent: "prototype-builder",
+    step: "05",
+    title: "Prototype",
+    subtitle: "Карта переходов",
+    highlights: [
+      "8 связей: 2 main flow + 4 sidebar-навигации + 2 задокументированных in-place-действия без перехода.",
+      "Переходы «Принять» и «Добавить в роадмап» помечены как прототипная конвенция: в продукте действие in-place, переход добавлен, чтобы сценарий игрался одним путём.",
+      "6 переходов за границей прототипа (Settings, Login, onboarding) зафиксированы, а не выдуманы.",
+      "Animation = Instant: единый persistent shell — desktop tab-switch, не push-стек.",
+      "Документный проход: Figma-connections не создавались, поля помечены «не применимо».",
+    ],
+    input: "screens.md (контекст: ia.md)",
+    objective: "карта переходов и навигации между экранами прогона",
+    constraints: [
+      "только 4 существующих экрана",
+      "переходы на несобранные экраны фиксировать как «за границей прототипа», не выдумывать",
+      "входы read-only",
+      "документный проход без Figma",
+    ],
+    decisions: [
+      "Instant для persistent shell (desktop tab-switch)",
+      "прототипная конвенция для CTA-переходов с явной пометкой",
+      "служебная панель просмотрщика в веб-сборке как мета-слой, не UI продукта",
+    ],
+    change: null,
+    disclaimer:
+      "Этап 05 выполнен продолжением на тех же входных артефактах, без их правки.",
+    externalCta: {
+      href: "https://feedback-roadmap-proto.vercel.app",
+      label: "живой прототип ↗",
+    },
   },
   brief: {
     id: "brief",
@@ -205,11 +241,12 @@ let cached: Run | null = null;
 export async function getRun(): Promise<Run> {
   if (cached) return cached;
 
-  const [brief, research, ia, screens] = await Promise.all([
+  const [brief, research, ia, screens, prototype] = await Promise.all([
     readArtifact("brief.md"),
     readArtifact("research.md"),
     readArtifact("ia.md"),
     readArtifact("screens.md"),
+    readArtifact("prototype.md"),
   ]);
 
   const rawById: Record<RunStage["id"], string> = {
@@ -217,10 +254,11 @@ export async function getRun(): Promise<Run> {
     research,
     ia,
     screens,
+    prototype,
   };
 
   const stages: RunStage[] = (
-    ["brief", "research", "ia", "screens"] as const
+    ["brief", "research", "ia", "screens", "prototype"] as const
   ).map((id) => ({ ...CURATED[id], raw: rawById[id] }));
 
   cached = {

@@ -66,7 +66,7 @@ const components: Components = {
   ),
   table: ({ children }) => (
     <div className="my-4 overflow-x-auto">
-      <table className="w-full border-collapse text-left text-sm">
+      <table className="min-w-full border-collapse text-left text-sm">
         {children}
       </table>
     </div>

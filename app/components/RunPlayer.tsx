@@ -3,8 +3,8 @@ import ArtifactSection from "./ArtifactSection";
 import RevealGroup from "./RevealGroup";
 
 /**
- * Beat 3 — RunPlayer. Wraps the four stages (brief → research → ia → screens)
- * under a single "the run" narrative beat. Each stage renders as an
+ * Beat 3 — RunPlayer. Wraps the five stages (brief → research → ia → screens →
+ * prototype) under a single "the run" narrative beat. Each stage renders as an
  * ArtifactSection.
  */
 export default function RunPlayer({ stages }: { stages: RunStage[] }) {
@@ -14,7 +14,7 @@ export default function RunPlayer({ stages }: { stages: RunStage[] }) {
         Прогон
       </h2>
       <p className="mt-2 mb-10 max-w-xl text-zinc-400">
-        Четыре этапа подряд. Каждый артефакт передаётся следующему агенту как вход —
+        Пять этапов подряд. Каждый артефакт передаётся следующему агенту как вход —
         ниже хайлайты, а полный текст раскрывается по клику.
       </p>
 
