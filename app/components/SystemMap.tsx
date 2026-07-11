@@ -5,9 +5,10 @@ import type { RunStage } from "@/lib/run";
 
 /**
  * Beat 2 — SystemMap. A vertical backbone (spine), not a grid: the orchestrator
- * node sits at the top of a connecting line, and the six agents run as full-width
- * rows down the spine — each row pairs the agent's mono name (left) with the
- * artifact chip it produces (right). The data contract closes the section as a
+ * node sits at the top of a connecting line, and the five main-chain agents run
+ * as full-width rows down the spine — each row pairs the agent's mono name
+ * (left) with the artifact chip it produces (right); test-companion sits off
+ * the spine as a parallel branch. The data contract closes the section as a
  * compact pill chain. Dark, to match the showcase. No SVG libs — the spine is a
  * single absolutely-positioned rule with opaque node dots punched over it.
  */

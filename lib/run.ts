@@ -4,7 +4,7 @@ import path from "node:path";
 /**
  * Data layer for the run showcase.
  *
- * Source of truth: the three artifacts the agent pipeline produced in
+ * Source of truth: the five artifacts the agent pipeline produced in
  * `content/run/`. We read the raw markdown for the <details> reveal, and pair
  * each stage with HAND-CURATED highlights (not auto-parsed headings) — picking
  * the points by hand is more honest about what actually matters in each doc.
@@ -156,7 +156,7 @@ const CURATED: Record<RunStage["id"], Omit<RunStage, "raw">> = {
     title: "Brief",
     subtitle: "Продукт и проблема",
     highlights: [
-      "Инструмент для команд 3-15 и инди: собрать фидбэк из чатов и превратить в приоритизированный роадмап.",
+      "Инструмент для команд 3–15 и инди: собрать фидбэк из чатов и превратить в приоритизированный роадмап.",
       "Ставка — Telegram-first как точка входа + ясная приоритизация (хаос → «что делать на этой неделе»).",
       "Скоуп MVP узкий и осознанный: только чаты/мессенджеры, 1-2 месяца; in-app/email/звонки — в v2.",
       "Главная метрика — switch-сигнал: команды возвращаются и ведут разбор ≥2 недель подряд.",
@@ -186,7 +186,7 @@ const CURATED: Record<RunStage["id"], Omit<RunStage, "raw">> = {
     highlights: [
       "Рынок Feedback & Reviews Mgmt: $16.7 млрд (2025) → $19.6 млрд (2026), CAGR ~17%.",
       "Canny и Productboard не имеют нативной Telegram-интеграции — только через Zapier.",
-      "Для команд 3-15 эксперты рекомендуют lightweight Value×Effort, а не тяжёлый RICE/WSJF.",
+      "Для команд 3–15 эксперты рекомендуют lightweight Value×Effort, а не тяжёлый RICE/WSJF.",
       "Захват из чата — отраслевой стандарт: форвард-в-бота (Telegram), slash-команда и message-action (Slack/Discord).",
       "Три синтетические персоны: Марина (PM), Антон (инди-фаундер), Лена (customer success).",
     ],

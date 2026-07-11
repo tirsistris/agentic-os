@@ -4,7 +4,7 @@ import { Children, useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
  * Presentational-only animation wrapper for beat 3 (Прогон). Its server-rendered
- * children (the three ArtifactSections) reveal one-by-one with a staggered
+ * children (the five ArtifactSections) reveal one-by-one with a staggered
  * fade + upward slide when the group scrolls into view.
  *
  * Progressive enhancement, by construction:

@@ -5,7 +5,7 @@ import ScreensLightbox from "./ScreensLightbox";
 /**
  * One stage of the run: hand-curated highlights always visible, full markdown
  * artifact tucked into a native <details> (keyboard-accessible, no hydration).
- * Reused by all three stages inside RunPlayer. Unconditionally dark.
+ * Reused by all five stages inside RunPlayer. Unconditionally dark.
  */
 export default function ArtifactSection({ stage }: { stage: RunStage }) {
   return (
