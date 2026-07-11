@@ -260,14 +260,18 @@ export default function SystemMap({ stages }: { stages: RunStage[] }) {
             параллельно · старт после brief
           </p>
           {PARALLEL.map((a) => (
-            <div
-              key={a.id}
-              className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-zinc-800/60 bg-zinc-900/40 px-4 py-3"
-            >
-              <span className="font-mono text-sm text-zinc-600">{a.name}</span>
-              <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-zinc-800 bg-zinc-900/40 px-2 py-1 font-mono text-xs text-zinc-600">
-                <span aria-hidden>→</span> {a.produces}
-              </span>
+            <div key={a.id} className="mt-3">
+              <div className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800/60 bg-zinc-900/40 px-4 py-3">
+                <span className="font-mono text-sm text-zinc-600">{a.name}</span>
+                <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-zinc-800 bg-zinc-900/40 px-2 py-1 font-mono text-xs text-zinc-600">
+                  <span aria-hidden>→</span> {a.produces}
+                </span>
+              </div>
+              {!a.executed && (
+                <p className="mt-1 pl-1 text-[10px] text-zinc-600">
+                  не выполнен в этом прогоне
+                </p>
+              )}
             </div>
           ))}
         </div>
