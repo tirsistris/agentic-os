@@ -9,7 +9,7 @@ import Provenance from "@/app/components/Provenance";
 export const metadata: Metadata = {
   title: "Реплей прогона — Feedback→Roadmap",
   description:
-    "Один прогон агентного пайплайна: бриф → ресёрч → информационная архитектура, с честной коррекцией позиционирования.",
+    "Один прогон агентного пайплайна: brief → research → ia → screens → prototype, с честной коррекцией позиционирования.",
 };
 
 export default async function Home() {

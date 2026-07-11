@@ -25,7 +25,7 @@ const sourceSerif = Source_Serif_4({
 export const metadata: Metadata = {
   title: "Реплей прогона — Feedback→Roadmap",
   description:
-    "Один прогон агентного пайплайна: бриф → ресёрч → информационная архитектура.",
+    "Один прогон агентного пайплайна: brief → research → ia → screens → prototype.",
 };
 
 export default function RootLayout({
