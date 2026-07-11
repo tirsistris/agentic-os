@@ -22,7 +22,14 @@ export default function ScreensLightbox({
       if (e.key === "Escape") setOpenIndex(null);
     }
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    // Lock the page scroll while the overlay is up — otherwise the artifact
+    // list keeps scrolling under the fixed lightbox.
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [openIndex]);
 
   const open = openIndex !== null ? images[openIndex] : null;

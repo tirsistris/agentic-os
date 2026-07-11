@@ -40,11 +40,14 @@ const components: Components = {
   ),
   li: ({ children }) => <li className="leading-7">{children}</li>,
   a: ({ children, href }) => (
+    // break-words: bare autolinked URLs (e.g. FigJam links in ia.md) are one
+    // unbreakable token wider than a phone viewport and drag the whole page
+    // into horizontal scroll without it.
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="font-medium text-blue-400 underline underline-offset-2 hover:text-blue-300"
+      className="font-medium break-words text-blue-400 underline underline-offset-2 hover:text-blue-300"
     >
       {children}
     </a>
